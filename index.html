@@ -7,6 +7,9 @@
     <meta name="description" content="Compare the best AI tools for writing, coding, design, and business. Expert reviews, side-by-side comparisons, and exclusive deals updated daily.">
     <meta name="keywords" content="best AI tools, AI writing tools, AI coding tools, ChatGPT alternatives, AI comparison 2025">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/conversion.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#6C5CE7">
     <link rel="canonical" href="https://tobisamaa.github.io/ai-tool-finder/">
     <meta name="robots" content="index, follow">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -753,86 +756,139 @@
         </div>
     </div>
 
-    <!-- Product Recommendation Quiz -->
-    <section class="quiz-section" id="quiz">
+    <!-- Product Recommendation Quiz (powered by conversion.js) -->
+    <section class="faq-section" id="quiz">
         <div class="container">
-            <div class="section-header">
-                <h2>🎯 Not Sure Which Tool to Pick?</h2>
-                <p>Answer 3 questions — get a personalized recommendation</p>
-            </div>
-            <div class="quiz-container" id="quizContainer">
-                <div class="quiz-step active" data-step="1">
-                    <h3>What do you need the AI tool for?</h3>
-                    <div class="quiz-options">
-                        <button onclick="quizAnswer(1, 'writing')" class="quiz-btn">Writing & Content</button>
-                        <button onclick="quizAnswer(1, 'coding')" class="quiz-btn">Coding & Development</button>
-                        <button onclick="quizAnswer(1, 'design')" class="quiz-btn">Design & Creative</button>
-                        <button onclick="quizAnswer(1, 'marketing')" class="quiz-btn">SEO & Marketing</button>
-                        <button onclick="quizAnswer(1, 'video')" class="quiz-btn">Video Creation</button>
-                        <button onclick="quizAnswer(1, 'productivity')" class="quiz-btn">Productivity & Notes</button>
-                    </div>
-                </div>
-                <div class="quiz-step" data-step="2">
-                    <h3>What's your budget?</h3>
-                    <div class="quiz-options">
-                        <button onclick="quizAnswer(2, 'free')" class="quiz-btn">Free only</button>
-                        <button onclick="quizAnswer(2, 'low')" class="quiz-btn">Under $25/month</button>
-                        <button onclick="quizAnswer(2, 'mid')" class="quiz-btn">$25-100/month</button>
-                        <button onclick="quizAnswer(2, 'high')" class="quiz-btn">$100+/month (serious tools)</button>
-                    </div>
-                </div>
-                <div class="quiz-step" data-step="3">
-                    <h3>Who is this for?</h3>
-                    <div class="quiz-options">
-                        <button onclick="quizAnswer(3, 'solo')" class="quiz-btn">Just me (solo)</button>
-                        <button onclick="quizAnswer(3, 'small')" class="quiz-btn">Small team (2-10)</button>
-                        <button onclick="quizAnswer(3, 'large')" class="quiz-btn">Large team / Business</button>
-                    </div>
-                </div>
-                <div class="quiz-result" id="quizResult" style="display:none;">
-                    <div class="quiz-result-card">
-                        <div class="quiz-result-badge">Perfect Match</div>
-                        <h3 id="quizResultName"></h3>
-                        <p id="quizResultWhy"></p>
-                        <a id="quizResultLink" href="#" class="btn btn-primary btn-large" rel="nofollow sponsored" target="_blank">Check It Out →</a>
-                    </div>
-                </div>
-            </div>
+            <div id="quizWidget"></div>
         </div>
     </section>
 
-    <!-- Deal Countdown Timer -->
-    <section class="countdown-section">
-        <div class="container" style="text-align: center;">
-            <h2>🔥 Deal Expires In</h2>
-            <div class="countdown" id="countdown">
-                <div class="countdown-item"><span id="cdHours">23</span><small>Hours</small></div>
-                <div class="countdown-item"><span id="cdMins">59</span><small>Minutes</small></div>
-                <div class="countdown-item"><span id="cdSecs">59</span><small>Seconds</small></div>
+    <!-- Deal Countdown Bar (powered by conversion.js) -->
+    <div class="countdown-bar" id="countdownBar">
+        <div class="container">
+            <span class="countdown-label">🔥 Flash Sale Ends In:</span>
+            <div class="countdown-digits">
+                <span class="countdown-unit">00</span><span class="countdown-sep">:</span>
+                <span class="countdown-unit">00</span><span class="countdown-sep">:</span>
+                <span class="countdown-unit">00</span><span class="countdown-sep">:</span>
+                <span class="countdown-unit">00</span>
             </div>
-            <p class="countdown-note">Jasper AI at 50% off — don't miss it</p>
-            <a href="go/jasper/index.html" class="btn btn-primary btn-large" rel="nofollow sponsored" target="_blank">Claim 50% Off Before It's Gone →</a>
-        </div>
-    </section>
-
-    <!-- Cookie Consent Banner -->
-    <div id="cookieBanner" class="cookie-banner" style="display:none;">
-        <p>We use essential cookies to improve your experience. We don't use tracking cookies. <a href="privacy.html">Privacy Policy</a></p>
-        <div class="cookie-btns">
-            <button onclick="acceptCookies()" class="btn btn-primary btn-small">Accept</button>
+            <a href="go/jasper/index.html" class="countdown-cta" rel="nofollow sponsored" target="_blank">Get 50% Off →</a>
         </div>
     </div>
 
-    <!-- Back to Top Button -->
-    <button id="backToTop" class="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" style="display:none;">↑</button>
+    <!-- Dynamic Personalization Banner -->
+    <div id="personalizedBanner" class="personalized-banner"></div>
 
-    <!-- Share Buttons -->
-    <div class="share-bar" id="shareBar">
-        <span>Share:</span>
-        <a href="https://twitter.com/intent/tweet?url=https://tobisamaa.github.io/ai-tool-finder/&text=Best%20AI%20Tools%202025%20-%20Expert%20Reviews%20%26%20Comparisons" target="_blank" rel="noopener" class="share-btn share-twitter">X</a>
-        <a href="https://www.reddit.com/submit?url=https://tobisamaa.github.io/ai-tool-finder/&title=Best%20AI%20Tools%202025%20-%20Reviews%20%26%20Comparisons" target="_blank" rel="noopener" class="share-btn share-reddit">Reddit</a>
-        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://tobisamaa.github.io/ai-tool-finder/" target="_blank" rel="noopener" class="share-btn share-linkedin">LinkedIn</a>
-        <a href="https://www.facebook.com/sharer/sharer.php?u=https://tobisamaa.github.io/ai-tool-finder/" target="_blank" rel="noopener" class="share-btn share-facebook">Facebook</a>
+    <!-- GDPR/CCPA Cookie Consent Banner -->
+    <div id="cookieBanner" class="cookie-banner">
+        <div class="cookie-inner">
+            <div class="cookie-text">
+                <p>We use cookies to improve your experience and analyze site traffic. You can choose which cookies to allow. <a href="privacy.html">Privacy Policy</a></p>
+            </div>
+            <div class="cookie-actions">
+                <button class="cookie-btn cookie-btn-reject" onclick="CookieConsent.rejectAll()">Reject All</button>
+                <button class="cookie-btn cookie-btn-settings" onclick="CookieConsent.showSettings()">Cookie Settings</button>
+                <button class="cookie-btn cookie-btn-accept" onclick="CookieConsent.acceptAll()">Accept All</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cookie Settings Modal -->
+    <div id="cookieModal" class="cookie-modal-overlay">
+        <div class="cookie-modal">
+            <h3>Cookie Preferences</h3>
+            <p style="font-size:14px;color:var(--text-light);margin-bottom:16px;">Manage how we use cookies on this site.</p>
+
+            <div class="cookie-category">
+                <div class="cookie-cat-info">
+                    <h4>Necessary</h4>
+                    <p>Required for the site to function. Cannot be disabled.</p>
+                </div>
+                <label class="cookie-toggle">
+                    <input type="checkbox" checked disabled>
+                    <span class="cookie-toggle-slider"></span>
+                </label>
+            </div>
+            <div class="cookie-category">
+                <div class="cookie-cat-info">
+                    <h4>Analytics</h4>
+                    <p>Help us understand how visitors interact with the site.</p>
+                </div>
+                <label class="cookie-toggle">
+                    <input type="checkbox" id="cookieAnalytics">
+                    <span class="cookie-toggle-slider"></span>
+                </label>
+            </div>
+            <div class="cookie-category">
+                <div class="cookie-cat-info">
+                    <h4>Marketing</h4>
+                    <p>Used for retargeting ads and tracking conversions.</p>
+                </div>
+                <label class="cookie-toggle">
+                    <input type="checkbox" id="cookieMarketing">
+                    <span class="cookie-toggle-slider"></span>
+                </label>
+            </div>
+
+            <div class="cookie-modal-actions">
+                <button class="cookie-btn cookie-btn-reject" onclick="CookieConsent.rejectAll()">Reject All</button>
+                <button class="cookie-btn cookie-btn-accept" onclick="CookieConsent.savePreferences()">Save Preferences</button>
+                <button class="cookie-btn cookie-btn-accept" onclick="CookieConsent.acceptAll()">Accept All</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Buttons: Back to Top + Share -->
+    <div id="floatingButtons" class="floating-buttons">
+        <div class="float-btn float-btn-share" title="Share this page">
+            &#8599;
+            <div class="share-dropdown">
+                <a href="https://twitter.com/intent/tweet?url=https://tobisamaa.github.io/ai-tool-finder/&text=Best%20AI%20Tools%202025" target="_blank" rel="noopener">
+                    <span class="share-icon">&#120143;</span> Share on X
+                </a>
+                <a href="https://www.reddit.com/submit?url=https://tobisamaa.github.io/ai-tool-finder/&title=Best%20AI%20Tools%202025" target="_blank" rel="noopener">
+                    <span class="share-icon">Reddit</span> Share on Reddit
+                </a>
+                <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://tobisamaa.github.io/ai-tool-finder/" target="_blank" rel="noopener">
+                    <span class="share-icon">in</span> Share on LinkedIn
+                </a>
+                <a href="https://www.facebook.com/sharer/sharer.php?u=https://tobisamaa.github.io/ai-tool-finder/" target="_blank" rel="noopener">
+                    <span class="share-icon">f</span> Share on Facebook
+                </a>
+                <a href="mailto:?subject=Best%20AI%20Tools%202025&body=Check%20out%20this%20comparison%3A%20https://tobisamaa.github.io/ai-tool-finder/">
+                    <span class="share-icon">&#9993;</span> Email
+                </a>
+            </div>
+        </div>
+        <button class="float-btn float-btn-top" title="Back to top">&#8593;</button>
+    </div>
+
+    <!-- Push Notification Opt-In -->
+    <div id="pushPrompt" class="push-prompt">
+        <div class="push-inner">
+            <div class="push-text">
+                <strong>Get deal alerts instantly</strong>
+                <p>Be the first to know when AI tools drop prices or launch new features.</p>
+            </div>
+            <div class="push-actions">
+                <button class="push-btn push-btn-allow" onclick="PushOptIn.allow()">Allow Notifications</button>
+                <button class="push-btn push-btn-dismiss" onclick="PushOptIn.dismiss()">Not Now</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PWA Install Banner -->
+    <div id="pwaInstallBanner" class="pwa-install-banner">
+        <div class="pwa-inner">
+            <span class="pwa-icon">⚡</span>
+            <div class="pwa-text">
+                <strong>Install AI Tool Finder</strong>
+                <p>Quick access to deals and reviews from your home screen</p>
+            </div>
+            <button class="pwa-btn" onclick="PWAFeatures.install()">Install</button>
+            <button class="pwa-btn" style="background:transparent;color:var(--text-light);" onclick="PWAFeatures.dismissInstall()">✕</button>
+        </div>
     </div>
 
     <!-- Footer -->
@@ -873,5 +929,15 @@
     </footer>
 
     <script src="js/main.js"></script>
+    <script src="js/conversion.js"></script>
+    <script>
+    // Initialize conversion components
+    document.addEventListener('DOMContentLoaded', function() {
+        // Init quiz widget
+        AffiliateQuiz.init('quizWidget');
+        // Init price comparison widget (if present on page)
+        PriceCompare.init('priceCompareWidget', 'ai-writing');
+    });
+    </script>
 </body>
 </html>
