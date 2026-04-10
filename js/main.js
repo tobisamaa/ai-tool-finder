@@ -173,3 +173,108 @@ if ('IntersectionObserver' in window) {
     });
     document.querySelectorAll('img[data-src]').forEach(function(img) { imgObserver.observe(img); });
 }
+
+// ==================== PRODUCT RECOMMENDATION QUIZ ====================
+var quizData = { use: '', budget: '', team: '' };
+
+function quizAnswer(step, value) {
+    if (step === 1) quizData.use = value;
+    if (step === 2) quizData.budget = value;
+    if (step === 3) quizData.team = value;
+
+    // Hide current step, show next
+    var steps = document.querySelectorAll('.quiz-step');
+    steps.forEach(function(s) { s.classList.remove('active'); });
+
+    if (step < 3) {
+        var next = document.querySelector('.quiz-step[data-step="' + (step + 1) + '"]');
+        if (next) next.classList.add('active');
+    } else {
+        showQuizResult();
+    }
+}
+
+function showQuizResult() {
+    var recommendations = {
+        'writing': { name: 'Jasper AI', link: 'go/jasper/index.html', why: 'Best AI writing tool with 50+ templates, brand voice matching, and SEO integration. Perfect for content creators and businesses.' },
+        'coding': { name: 'Cursor AI', link: 'go/cursor/index.html', why: 'AI-powered code editor that understands your entire codebase. Built on VS Code with multi-file AI editing.' },
+        'design': { name: 'Canva Pro', link: 'go/canva/index.html', why: 'AI-powered design with Magic Design, text-to-image, and 100M+ templates. Free 30-day trial available.' },
+        'marketing': { name: 'Semrush', link: 'go/semrush/index.html', why: 'All-in-one SEO and marketing platform with keyword research, competitor analysis, and AI writing. 14-day free trial.' },
+        'video': { name: 'Synthesia', link: 'go/synthesia/index.html', why: 'Create AI videos with 230+ realistic avatars in 140+ languages. No camera needed.' },
+        'productivity': { name: 'Notion AI', link: 'go/notion/index.html', why: 'AI-powered workspace for notes, docs, projects, and databases. Free plan available.' }
+    };
+
+    var rec = recommendations[quizData.use] || recommendations['writing'];
+
+    // Budget override
+    if (quizData.budget === 'free' && quizData.use === 'writing') {
+        rec = { name: 'Copy.ai', link: 'go/copyai/index.html', why: 'Free plan with 2,000 words/month. Great for trying AI writing without commitment.' };
+    }
+
+    document.getElementById('quizResultName').textContent = rec.name;
+    document.getElementById('quizResultWhy').textContent = rec.why;
+    document.getElementById('quizResultLink').href = rec.link;
+
+    document.getElementById('quizResult').style.display = 'block';
+    document.getElementById('quizContainer').querySelector('.quiz-step.active')?.classList.remove('active');
+}
+
+// ==================== COUNTDOWN TIMER ====================
+(function() {
+    var endKey = 'countdown_end';
+    var end = localStorage.getItem(endKey);
+    if (!end) {
+        end = Date.now() + 24 * 60 * 60 * 1000; // 24 hours from now
+        localStorage.setItem(endKey, end);
+    }
+
+    function updateCountdown() {
+        var remaining = Math.max(0, end - Date.now());
+        var hours = Math.floor(remaining / 3600000);
+        var mins = Math.floor((remaining % 3600000) / 60000);
+        var secs = Math.floor((remaining % 60000) / 1000);
+
+        var hEl = document.getElementById('cdHours');
+        var mEl = document.getElementById('cdMins');
+        var sEl = document.getElementById('cdSecs');
+        if (hEl) hEl.textContent = String(hours).padStart(2, '0');
+        if (mEl) mEl.textContent = String(mins).padStart(2, '0');
+        if (sEl) sEl.textContent = String(secs).padStart(2, '0');
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+})();
+
+// ==================== COOKIE CONSENT ====================
+(function() {
+    if (localStorage.getItem('cookies_accepted')) return;
+    var banner = document.getElementById('cookieBanner');
+    if (banner) {
+        setTimeout(function() { banner.style.display = 'flex'; }, 2000);
+    }
+})();
+
+function acceptCookies() {
+    localStorage.setItem('cookies_accepted', '1');
+    var banner = document.getElementById('cookieBanner');
+    if (banner) banner.style.display = 'none';
+}
+
+// ==================== BACK TO TOP ====================
+(function() {
+    var btn = document.getElementById('backToTop');
+    if (!btn) return;
+    window.addEventListener('scroll', function() {
+        btn.style.display = window.scrollY > 800 ? 'block' : 'none';
+    });
+})();
+
+// ==================== SHARE BAR VISIBILITY ====================
+(function() {
+    var bar = document.getElementById('shareBar');
+    if (!bar) return;
+    window.addEventListener('scroll', function() {
+        bar.style.opacity = window.scrollY > 400 ? '1' : '0';
+    });
+})();

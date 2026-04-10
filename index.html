@@ -749,8 +749,90 @@
     <!-- Affiliate Disclosure (legal requirement) -->
     <div class="affiliate-disclosure">
         <div class="container">
-            <p><strong>Affiliate Disclosure:</strong> AI Tool Finder earns commissions from purchases made through our links at no extra cost to you. Our editorial team independently tests and reviews all tools. Rankings are based on performance, features, and value — never on commission amounts. <a href="#">Learn more about our process</a>.</p>
+            <p><strong>Affiliate Disclosure:</strong> AI Tool Finder earns commissions from purchases made through our links at no extra cost to you. Our editorial team independently tests and reviews all tools. Rankings are based on performance, features, and value — never on commission amounts. <a href="disclosure.html">Learn more about our process</a>.</p>
         </div>
+    </div>
+
+    <!-- Product Recommendation Quiz -->
+    <section class="quiz-section" id="quiz">
+        <div class="container">
+            <div class="section-header">
+                <h2>🎯 Not Sure Which Tool to Pick?</h2>
+                <p>Answer 3 questions — get a personalized recommendation</p>
+            </div>
+            <div class="quiz-container" id="quizContainer">
+                <div class="quiz-step active" data-step="1">
+                    <h3>What do you need the AI tool for?</h3>
+                    <div class="quiz-options">
+                        <button onclick="quizAnswer(1, 'writing')" class="quiz-btn">Writing & Content</button>
+                        <button onclick="quizAnswer(1, 'coding')" class="quiz-btn">Coding & Development</button>
+                        <button onclick="quizAnswer(1, 'design')" class="quiz-btn">Design & Creative</button>
+                        <button onclick="quizAnswer(1, 'marketing')" class="quiz-btn">SEO & Marketing</button>
+                        <button onclick="quizAnswer(1, 'video')" class="quiz-btn">Video Creation</button>
+                        <button onclick="quizAnswer(1, 'productivity')" class="quiz-btn">Productivity & Notes</button>
+                    </div>
+                </div>
+                <div class="quiz-step" data-step="2">
+                    <h3>What's your budget?</h3>
+                    <div class="quiz-options">
+                        <button onclick="quizAnswer(2, 'free')" class="quiz-btn">Free only</button>
+                        <button onclick="quizAnswer(2, 'low')" class="quiz-btn">Under $25/month</button>
+                        <button onclick="quizAnswer(2, 'mid')" class="quiz-btn">$25-100/month</button>
+                        <button onclick="quizAnswer(2, 'high')" class="quiz-btn">$100+/month (serious tools)</button>
+                    </div>
+                </div>
+                <div class="quiz-step" data-step="3">
+                    <h3>Who is this for?</h3>
+                    <div class="quiz-options">
+                        <button onclick="quizAnswer(3, 'solo')" class="quiz-btn">Just me (solo)</button>
+                        <button onclick="quizAnswer(3, 'small')" class="quiz-btn">Small team (2-10)</button>
+                        <button onclick="quizAnswer(3, 'large')" class="quiz-btn">Large team / Business</button>
+                    </div>
+                </div>
+                <div class="quiz-result" id="quizResult" style="display:none;">
+                    <div class="quiz-result-card">
+                        <div class="quiz-result-badge">Perfect Match</div>
+                        <h3 id="quizResultName"></h3>
+                        <p id="quizResultWhy"></p>
+                        <a id="quizResultLink" href="#" class="btn btn-primary btn-large" rel="nofollow sponsored" target="_blank">Check It Out →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Deal Countdown Timer -->
+    <section class="countdown-section">
+        <div class="container" style="text-align: center;">
+            <h2>🔥 Deal Expires In</h2>
+            <div class="countdown" id="countdown">
+                <div class="countdown-item"><span id="cdHours">23</span><small>Hours</small></div>
+                <div class="countdown-item"><span id="cdMins">59</span><small>Minutes</small></div>
+                <div class="countdown-item"><span id="cdSecs">59</span><small>Seconds</small></div>
+            </div>
+            <p class="countdown-note">Jasper AI at 50% off — don't miss it</p>
+            <a href="go/jasper/index.html" class="btn btn-primary btn-large" rel="nofollow sponsored" target="_blank">Claim 50% Off Before It's Gone →</a>
+        </div>
+    </section>
+
+    <!-- Cookie Consent Banner -->
+    <div id="cookieBanner" class="cookie-banner" style="display:none;">
+        <p>We use essential cookies to improve your experience. We don't use tracking cookies. <a href="privacy.html">Privacy Policy</a></p>
+        <div class="cookie-btns">
+            <button onclick="acceptCookies()" class="btn btn-primary btn-small">Accept</button>
+        </div>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="backToTop" class="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" style="display:none;">↑</button>
+
+    <!-- Share Buttons -->
+    <div class="share-bar" id="shareBar">
+        <span>Share:</span>
+        <a href="https://twitter.com/intent/tweet?url=https://tobisamaa.github.io/ai-tool-finder/&text=Best%20AI%20Tools%202025%20-%20Expert%20Reviews%20%26%20Comparisons" target="_blank" rel="noopener" class="share-btn share-twitter">X</a>
+        <a href="https://www.reddit.com/submit?url=https://tobisamaa.github.io/ai-tool-finder/&title=Best%20AI%20Tools%202025%20-%20Reviews%20%26%20Comparisons" target="_blank" rel="noopener" class="share-btn share-reddit">Reddit</a>
+        <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://tobisamaa.github.io/ai-tool-finder/" target="_blank" rel="noopener" class="share-btn share-linkedin">LinkedIn</a>
+        <a href="https://www.facebook.com/sharer/sharer.php?u=https://tobisamaa.github.io/ai-tool-finder/" target="_blank" rel="noopener" class="share-btn share-facebook">Facebook</a>
     </div>
 
     <!-- Footer -->
@@ -777,9 +859,10 @@
                 </div>
                 <div class="footer-col">
                     <h4>Legal</h4>
-                    <a href="#">Privacy Policy</a>
-                    <a href="#">Terms of Service</a>
-                    <a href="#">Affiliate Disclosure</a>
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms of Service</a>
+                    <a href="disclosure.html">Affiliate Disclosure</a>
+                    <a href="about.html">About Us</a>
                 </div>
             </div>
             <div class="footer-bottom">
