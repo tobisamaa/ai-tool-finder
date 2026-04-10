@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Redirecting to ChatGPT Plus...</title>
+    <script>
+    // AFFILIATE LINK REDIRECT — Replace URL below with your actual affiliate link
+    var affiliateUrl = "https://REPLACE_WITH_YOUR_AFFILIATE_LINK_FOR_CHATGPT/";
+    
+    // Track click
+    try {
+        var clicks = JSON.parse(localStorage.getItem('affiliate_clicks') || '[]');
+        clicks.push({slug:'chatgpt',product:'ChatGPT Plus',timestamp:new Date().toISOString()});
+        localStorage.setItem('affiliate_clicks', JSON.stringify(clicks));
+    } catch(e) {}
+    
+    // Redirect
+    window.location.href = affiliateUrl;
+    </script>
+    <meta http-equiv="refresh" content="0;url=https://REPLACE_WITH_YOUR_AFFILIATE_LINK_FOR_CHATGPT/">
+</head>
+<body>
+    <p>Redirecting to <strong>ChatGPT Plus</strong>...</p>
+    <p>If you are not redirected, <a href="https://REPLACE_WITH_YOUR_AFFILIATE_LINK_FOR_CHATGPT/">click here</a>.</p>
+</body>
+</html>

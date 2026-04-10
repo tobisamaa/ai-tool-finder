@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Redirecting to Writesonic...</title>
+    <script>
+    // AFFILIATE LINK REDIRECT — Replace URL below with your actual affiliate link
+    var affiliateUrl = "https://REPLACE_WITH_YOUR_AFFILIATE_LINK_FOR_WRITESONIC/";
+    
+    // Track click
+    try {
+        var clicks = JSON.parse(localStorage.getItem('affiliate_clicks') || '[]');
+        clicks.push({slug:'writesonic',product:'Writesonic',timestamp:new Date().toISOString()});
+        localStorage.setItem('affiliate_clicks', JSON.stringify(clicks));
+    } catch(e) {}
+    
+    // Redirect
+    window.location.href = affiliateUrl;
+    </script>
+    <meta http-equiv="refresh" content="0;url=https://REPLACE_WITH_YOUR_AFFILIATE_LINK_FOR_WRITESONIC/">
+</head>
+<body>
+    <p>Redirecting to <strong>Writesonic</strong>...</p>
+    <p>If you are not redirected, <a href="https://REPLACE_WITH_YOUR_AFFILIATE_LINK_FOR_WRITESONIC/">click here</a>.</p>
+</body>
+</html>
