@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Affiliate Dashboard — Track Your $4,500 Goal</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #0f0f23;
+            color: #e0e0e0;
+        }
+        .dashboard { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #2a2a4a;
+        }
+        .header h1 { font-size: 24px; color: #a29bfe; }
+        .header .goal-tag {
+            background: #6c5ce7;
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+        }
+
+        /* Goal Progress */
+        .goal-section {
+            background: linear-gradient(135deg, #1a1a3e, #2a2a5e);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+        .goal-amount { font-size: 64px; font-weight: 800; color: #a29bfe; }
+        .goal-label { font-size: 18px; color: #8888aa; margin-bottom: 16px; }
+        .progress-bar {
+            height: 24px;
+            background: #2a2a4a;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 12px;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #6c5ce7, #a29bfe);
+            border-radius: 12px;
+            transition: width 0.5s;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 12px;
+            font-size: 12px;
+            font-weight: 700;
+            color: white;
+            min-width: 40px;
+        }
+        .goal-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-top: 24px;
+        }
+        .goal-stat { text-align: center; }
+        .goal-stat .value { font-size: 28px; font-weight: 800; color: white; }
+        .goal-stat .label { font-size: 13px; color: #8888aa; }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .stat-card {
+            background: #1a1a3e;
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid #2a2a4a;
+        }
+        .stat-card .value { font-size: 32px; font-weight: 800; color: white; }
+        .stat-card .label { font-size: 13px; color: #8888aa; margin-top: 4px; }
+        .stat-card .change { font-size: 13px; margin-top: 8px; }
+        .stat-card .change.up { color: #00b894; }
+        .stat-card .change.down { color: #e17055; }
+
+        /* Program Performance */
+        .section {
+            background: #1a1a3e;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            border: 1px solid #2a2a4a;
+        }
+        .section h2 { font-size: 18px; color: #a29bfe; margin-bottom: 16px; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid #2a2a4a;
+            font-size: 14px;
+        }
+        th { color: #8888aa; font-weight: 600; }
+        td { color: #e0e0e0; }
+        .revenue { color: #00b894; font-weight: 700; }
+        .status-active { color: #00b894; }
+        .status-pending { color: #fdcb6e; }
+
+        /* Action Buttons */
+        .actions {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: none;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        .btn-primary { background: #6c5ce7; color: white; }
+        .btn-primary:hover { background: #5a4bd1; }
+        .btn-success { background: #00b894; color: white; }
+        .btn-success:hover { background: #00a383; }
+        .btn-danger { background: #e17055; color: white; }
+
+        /* Conversion Logger */
+        .logger { margin-top: 24px; }
+        .log-entry {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px;
+            background: #0f0f23;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        .log-entry .amount { color: #00b894; font-weight: 700; }
+
+        /* Daily Chart */
+        .chart-container {
+            height: 200px;
+            display: flex;
+            align-items: flex-end;
+            gap: 4px;
+            padding: 16px 0;
+            border-bottom: 1px solid #2a2a4a;
+        }
+        .chart-bar {
+            flex: 1;
+            background: linear-gradient(to top, #6c5ce7, #a29bfe);
+            border-radius: 4px 4px 0 0;
+            min-height: 2px;
+            position: relative;
+            transition: height 0.3s;
+        }
+        .chart-bar:hover { opacity: 0.8; }
+        .chart-bar .tooltip {
+            display: none;
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #2a2a4a;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            white-space: nowrap;
+        }
+        .chart-bar:hover .tooltip { display: block; }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal.active { display: flex; }
+        .modal-content {
+            background: #1a1a3e;
+            border-radius: 16px;
+            padding: 32px;
+            max-width: 500px;
+            width: 90%;
+        }
+        .modal-content h3 { color: #a29bfe; margin-bottom: 16px; }
+        .form-group { margin-bottom: 16px; }
+        .form-group label { display: block; font-size: 13px; color: #8888aa; margin-bottom: 6px; }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px 16px;
+            border-radius: 8px;
+            border: 1px solid #2a2a4a;
+            background: #0f0f23;
+            color: white;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .goal-stats { grid-template-columns: repeat(2, 1fr); }
+            .goal-amount { font-size: 48px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <div class="header">
+            <h1>⚡ Affiliate Dashboard</h1>
+            <div>
+                <span class="goal-tag">Goal: $4,500 in 30 Days</span>
+                <span id="daysLeft" style="margin-left: 12px; color: #8888aa; font-size: 14px;"></span>
+            </div>
+        </div>
+
+        <!-- Goal Progress -->
+        <div class="goal-section">
+            <div class="goal-label">Total Affiliate Revenue</div>
+            <div class="goal-amount" id="totalRevenue">$0.00</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 0%;">0%</div>
+            </div>
+            <div class="goal-stats">
+                <div class="goal-stat">
+                    <div class="value" id="totalClicks">0</div>
+                    <div class="label">Total Clicks</div>
+                </div>
+                <div class="goal-stat">
+                    <div class="value" id="totalConversions">0</div>
+                    <div class="label">Conversions</div>
+                </div>
+                <div class="goal-stat">
+                    <div class="value" id="convRate">0%</div>
+                    <div class="label">Conversion Rate</div>
+                </div>
+                <div class="goal-stat">
+                    <div class="value" id="dailyAvg">$0</div>
+                    <div class="label">Daily Avg Needed</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="value" id="todayRevenue">$0</div>
+                <div class="label">Today's Revenue</div>
+                <div class="change up" id="todayChange"></div>
+            </div>
+            <div class="stat-card">
+                <div class="value" id="weekRevenue">$0</div>
+                <div class="label">This Week</div>
+            </div>
+            <div class="stat-card">
+                <div class="value" id="topProgram">—</div>
+                <div class="label">Top Earner</div>
+            </div>
+            <div class="stat-card">
+                <div class="value" id="articlesPosted">0</div>
+                <div class="label">Articles Posted</div>
+            </div>
+        </div>
+
+        <!-- Daily Revenue Chart -->
+        <div class="section">
+            <h2>Daily Revenue (Last 30 Days)</h2>
+            <div class="chart-container" id="revenueChart"></div>
+        </div>
+
+        <!-- Program Performance -->
+        <div class="section">
+            <h2>Program Performance</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Program</th>
+                        <th>Clicks</th>
+                        <th>Conversions</th>
+                        <th>Conv. Rate</th>
+                        <th>Revenue</th>
+                    </tr>
+                </thead>
+                <tbody id="programTable"></tbody>
+            </table>
+        </div>
+
+        <!-- Actions -->
+        <div class="actions">
+            <button class="btn btn-success" onclick="showModal('conversion')">+ Log Conversion</button>
+            <button class="btn btn-primary" onclick="showModal('click')">+ Log Clicks</button>
+            <button class="btn btn-primary" onclick="showModal('content')">+ Log Content</button>
+            <button class="btn btn-danger" onclick="resetData()">Reset All Data</button>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="section">
+            <h2>Recent Activity</h2>
+            <div class="logger" id="activityLog"></div>
+        </div>
+    </div>
+
+    <!-- Conversion Modal -->
+    <div class="modal" id="conversionModal">
+        <div class="modal-content">
+            <h3>Log New Conversion</h3>
+            <div class="form-group">
+                <label>Program</label>
+                <select id="convProgram">
+                    <option value="Jasper">Jasper ($125)</option>
+                    <option value="Semrush">Semrush ($200)</option>
+                    <option value="NordVPN">NordVPN ($40)</option>
+                    <option value="Hostinger">Hostinger ($100)</option>
+                    <option value="Canva">Canva ($36)</option>
+                    <option value="Copy.ai">Copy.ai ($45)</option>
+                    <option value="Surfer SEO">Surfer SEO ($25)</option>
+                    <option value="Notion">Notion ($10)</option>
+                    <option value="Synthesia">Synthesia ($20)</option>
+                    <option value="Grammarly">Grammarly ($25)</option>
+                    <option value="Systeme.io">Systeme.io ($40)</option>
+                    <option value="Other">Other (custom)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Revenue ($)</label>
+                <input type="number" id="convAmount" step="0.01" placeholder="125.00">
+            </div>
+            <div class="form-group">
+                <label>Source (where did the sale come from?)</label>
+                <select id="convSource">
+                    <option value="YouTube">YouTube Short</option>
+                    <option value="Blog">Blog Article</option>
+                    <option value="Reddit">Reddit</option>
+                    <option value="Quora">Quora</option>
+                    <option value="Twitter">Twitter/X</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Pinterest">Pinterest</option>
+                    <option value="Direct">Direct/Organic</option>
+                </select>
+            </div>
+            <div style="display: flex; gap: 12px; margin-top: 20px;">
+                <button class="btn btn-success" onclick="logConversion()">Log Conversion</button>
+                <button class="btn" style="background: #2a2a4a; color: white;" onclick="hideModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Click Modal -->
+    <div class="modal" id="clickModal">
+        <div class="modal-content">
+            <h3>Log Clicks</h3>
+            <div class="form-group">
+                <label>Program</label>
+                <select id="clickProgram">
+                    <option value="Jasper">Jasper</option>
+                    <option value="Semrush">Semrush</option>
+                    <option value="NordVPN">NordVPN</option>
+                    <option value="Hostinger">Hostinger</option>
+                    <option value="Canva">Canva</option>
+                    <option value="Copy.ai">Copy.ai</option>
+                    <option value="Surfer SEO">Surfer SEO</option>
+                    <option value="Notion">Notion</option>
+                    <option value="Synthesia">Synthesia</option>
+                    <option value="Grammarly">Grammarly</option>
+                    <option value="Systeme.io">Systeme.io</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Number of Clicks</label>
+                <input type="number" id="clickCount" value="1" min="1">
+            </div>
+            <div style="display: flex; gap: 12px; margin-top: 20px;">
+                <button class="btn btn-primary" onclick="logClicks()">Log Clicks</button>
+                <button class="btn" style="background: #2a2a4a; color: white;" onclick="hideModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Content Modal -->
+    <div class="modal" id="contentModal">
+        <div class="modal-content">
+            <h3>Log Content Published</h3>
+            <div class="form-group">
+                <label>Content Type</label>
+                <select id="contentType">
+                    <option value="YouTube Short">YouTube Short</option>
+                    <option value="TikTok">TikTok</option>
+                    <option value="Blog Article">Blog Article</option>
+                    <option value="Medium Article">Medium Article</option>
+                    <option value="Reddit Post">Reddit Post</option>
+                    <option value="Quora Answer">Quora Answer</option>
+                    <option value="Twitter Thread">Twitter Thread</option>
+                    <option value="Pinterest Pin">Pinterest Pin</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Title/Description</label>
+                <input type="text" id="contentTitle" placeholder="Best AI Tools 2025">
+            </div>
+            <div style="display: flex; gap: 12px; margin-top: 20px;">
+                <button class="btn btn-primary" onclick="logContent()">Log Content</button>
+                <button class="btn" style="background: #2a2a4a; color: white;" onclick="hideModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const GOAL = 4500;
+        const START_DATE = new Date('2025-04-10');
+        const END_DATE = new Date('2025-05-10');
+
+        function getData() {
+            return JSON.parse(localStorage.getItem('affiliate_data') || '{"clicks":{},"conversions":[],"content":[],"daily":{}}');
+        }
+
+        function saveData(data) {
+            localStorage.setItem('affiliate_data', JSON.stringify(data));
+        }
+
+        function today() {
+            return new Date().toISOString().split('T')[0];
+        }
+
+        function logConversion() {
+            const program = document.getElementById('convProgram').value;
+            const amount = parseFloat(document.getElementById('convAmount').value);
+            const source = document.getElementById('convSource').value;
+
+            if (!amount || amount <= 0) { alert('Enter a valid amount'); return; }
+
+            const data = getData();
+            const conv = {
+                program, amount, source,
+                date: new Date().toISOString(),
+                day: today()
+            };
+            data.conversions.push(conv);
+
+            // Update daily
+            if (!data.daily[today()]) data.daily[today()] = { clicks: 0, revenue: 0 };
+            data.daily[today()].revenue += amount;
+
+            saveData(data);
+            hideModal();
+            refreshDashboard();
+        }
+
+        function logClicks() {
+            const program = document.getElementById('clickProgram').value;
+            const count = parseInt(document.getElementById('clickCount').value) || 1;
+
+            const data = getData();
+            if (!data.clicks[program]) data.clicks[program] = 0;
+            data.clicks[program] += count;
+
+            if (!data.daily[today()]) data.daily[today()] = { clicks: 0, revenue: 0 };
+            data.daily[today()].clicks += count;
+
+            saveData(data);
+            hideModal();
+            refreshDashboard();
+        }
+
+        function logContent() {
+            const type = document.getElementById('contentType').value;
+            const title = document.getElementById('contentTitle').value;
+
+            const data = getData();
+            data.content.push({ type, title, date: new Date().toISOString(), day: today() });
+            saveData(data);
+            hideModal();
+            refreshDashboard();
+        }
+
+        function showModal(type) {
+            document.getElementById(type + 'Modal').classList.add('active');
+            // Auto-fill commission amount
+            if (type === 'conversion') {
+                const select = document.getElementById('convProgram');
+                const commissions = {
+                    'Jasper': 125, 'Semrush': 200, 'NordVPN': 40, 'Hostinger': 100,
+                    'Canva': 36, 'Copy.ai': 45, 'Surfer SEO': 25, 'Notion': 10,
+                    'Synthesia': 20, 'Grammarly': 25, 'Systeme.io': 40
+                };
+                document.getElementById('convAmount').value = commissions[select.value] || '';
+                select.onchange = () => {
+                    document.getElementById('convAmount').value = commissions[select.value] || '';
+                };
+            }
+        }
+
+        function hideModal() {
+            document.querySelectorAll('.modal').forEach(m => m.classList.remove('active'));
+        }
+
+        function resetData() {
+            if (confirm('Reset ALL data? This cannot be undone.')) {
+                localStorage.removeItem('affiliate_data');
+                refreshDashboard();
+            }
+        }
+
+        function refreshDashboard() {
+            const data = getData();
+            const totalRevenue = data.conversions.reduce((s, c) => s + c.amount, 0);
+            const totalClicks = Object.values(data.clicks).reduce((s, c) => s + c, 0);
+            const totalConversions = data.conversions.length;
+            const convRate = totalClicks > 0 ? (totalConversions / totalClicks * 100) : 0;
+
+            // Days remaining
+            const now = new Date();
+            const daysPassed = Math.max(1, Math.floor((now - START_DATE) / (1000 * 60 * 60 * 24)));
+            const daysRemaining = Math.max(1, Math.floor((END_DATE - now) / (1000 * 60 * 60 * 24)));
+            const dailyNeeded = Math.max(0, (GOAL - totalRevenue) / daysRemaining);
+
+            // Update display
+            document.getElementById('totalRevenue').textContent = '$' + totalRevenue.toFixed(2);
+            document.getElementById('progressFill').style.width = Math.min(100, totalRevenue / GOAL * 100) + '%';
+            document.getElementById('progressFill').textContent = Math.round(totalRevenue / GOAL * 100) + '%';
+            document.getElementById('totalClicks').textContent = totalClicks;
+            document.getElementById('totalConversions').textContent = totalConversions;
+            document.getElementById('convRate').textContent = convRate.toFixed(1) + '%';
+            document.getElementById('dailyAvg').textContent = '$' + dailyNeeded.toFixed(0);
+            document.getElementById('daysLeft').textContent = daysRemaining + ' days left';
+            document.getElementById('articlesPosted').textContent = data.content.length;
+
+            // Today's revenue
+            const todayData = data.daily[today()] || { clicks: 0, revenue: 0 };
+            document.getElementById('todayRevenue').textContent = '$' + todayData.revenue.toFixed(2);
+
+            // This week
+            const weekStart = new Date();
+            weekStart.setDate(weekStart.getDate() - weekStart.getDay());
+            const weekRev = data.conversions
+                .filter(c => new Date(c.date) >= weekStart)
+                .reduce((s, c) => s + c.amount, 0);
+            document.getElementById('weekRevenue').textContent = '$' + weekRev.toFixed(2);
+
+            // Top earner
+            const programRev = {};
+            data.conversions.forEach(c => {
+                programRev[c.program] = (programRev[c.program] || 0) + c.amount;
+            });
+            const topProgram = Object.entries(programRev).sort((a, b) => b[1] - a[1])[0];
+            document.getElementById('topProgram').textContent = topProgram ? topProgram[0] : '—';
+
+            // Program table
+            const programs = ['Jasper', 'Semrush', 'NordVPN', 'Hostinger', 'Canva', 'Copy.ai', 'Surfer SEO', 'Notion', 'Synthesia', 'Grammarly', 'Systeme.io'];
+            const tbody = document.getElementById('programTable');
+            tbody.innerHTML = programs.map(p => {
+                const clicks = data.clicks[p] || 0;
+                const convs = data.conversions.filter(c => c.program === p);
+                const rev = convs.reduce((s, c) => s + c.amount, 0);
+                const rate = clicks > 0 ? (convs.length / clicks * 100).toFixed(1) : '0.0';
+                return `<tr>
+                    <td>${p}</td>
+                    <td>${clicks}</td>
+                    <td>${convs.length}</td>
+                    <td>${rate}%</td>
+                    <td class="revenue">$${rev.toFixed(2)}</td>
+                </tr>`;
+            }).join('');
+
+            // Chart
+            const chartEl = document.getElementById('revenueChart');
+            chartEl.innerHTML = '';
+            for (let i = 29; i >= 0; i--) {
+                const d = new Date();
+                d.setDate(d.getDate() - i);
+                const key = d.toISOString().split('T')[0];
+                const dayRev = (data.daily[key] || { revenue: 0 }).revenue;
+                const maxRev = Math.max(200, ...Object.values(data.daily).map(d => d.revenue));
+                const height = Math.max(2, dayRev / maxRev * 180);
+                const bar = document.createElement('div');
+                bar.className = 'chart-bar';
+                bar.style.height = height + 'px';
+                bar.innerHTML = `<div class="tooltip">${key}: $${dayRev.toFixed(2)}</div>`;
+                chartEl.appendChild(bar);
+            }
+
+            // Activity log
+            const logEl = document.getElementById('activityLog');
+            const allActivity = [
+                ...data.conversions.map(c => ({
+                    text: `Conversion: ${c.program} from ${c.source}`,
+                    amount: '$' + c.amount.toFixed(2),
+                    date: c.date
+                })),
+                ...data.content.map(c => ({
+                    text: `Published: ${c.type} — ${c.title}`,
+                    amount: '',
+                    date: c.date
+                }))
+            ].sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 20);
+
+            logEl.innerHTML = allActivity.length ? allActivity.map(a => `
+                <div class="log-entry">
+                    <span>${new Date(a.date).toLocaleString()} — ${a.text}</span>
+                    <span class="amount">${a.amount}</span>
+                </div>
+            `).join('') : '<div style="text-align: center; color: #8888aa; padding: 24px;">No activity yet. Start logging clicks and conversions!</div>';
+        }
+
+        // Close modals on background click
+        document.querySelectorAll('.modal').forEach(m => {
+            m.addEventListener('click', e => { if (e.target === m) hideModal(); });
+        });
+
+        // Initial render
+        refreshDashboard();
+    </script>
+</body>
+</html>
